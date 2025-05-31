@@ -6,14 +6,6 @@ IMAGE_TAG="latest"
 CONTAINER_NAME="example-telegrambot-container"
 HOST_PORT="8080"      # 宿主机端口 (在 Cloud Shell 中这通常是容器的公开端口)
 CONTAINER_PORT="8080" # 容器内部端口 (请根据你的应用实际端口修改，Spring Boot 默认是 8080)
-
-# --- 私密信息环境变量定义 (仅在脚本中，不会硬编码到代码或Dockerfile) ---
-# 建议在实际使用时，将这些值存储在安全的地方（如CI/CD工具的Secrets，或者运行环境的实际环境变量中）
-# 这里的直接赋值仅为示例，在生产环境应避免直接写在这里
-TELEGRAM_BOT_NAME="unnode002_bot"
-TELEGRAM_BOT_TOKEN="8186231076:AAHZW1aqrzlaful-ldvE31tw1iBV4n9WGuk" # 注意：请替换为你的真实Token，此示例为占位符
-TELEGRAM_REVIEW_GROUP_ID="-4894905748" # 注意：请替换为你的真实审核群组ID
-TELEGRAM_PUBLIC_GROUP_ID="-1002279220106" # 注意：请替换为你的真实公开群组ID
 # --- 配置结束 ---
 
 echo "--- 开始部署 Docker 镜像 ---"
