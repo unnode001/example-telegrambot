@@ -39,5 +39,5 @@ jobs:
         with:
           context: .
           push: true
-          tags: unitserow/example-telegrambot:latest
+          tags: unnode001/example-telegrambot:latest
           file: ./Dockerfile
