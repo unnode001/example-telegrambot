@@ -27,6 +27,14 @@ jobs:
 
       - name: Build with Maven # 构建项目生成 JAR 包
         run: mvn -B package --file pom.xml
+        env:
+          # 将 GitHub Secrets 注入为环境变量
+          TELEGRAM_BOT_NAME: ${{ secrets.TELEGRAM_BOT_NAME }}
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_REVIEW_GROUP_ID: ${{ secrets.TELEGRAM_REVIEW_GROUP_ID }}
+          TELEGRAM_PUBLIC_GROUP_ID: ${{ secrets.TELEGRAM_PUBLIC_GROUP_ID }}
+#      - name: Run tests (Optional)
+#        run: mvn test
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
