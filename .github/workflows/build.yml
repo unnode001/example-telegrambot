@@ -2,7 +2,7 @@ name: 构建镜像并推送docker hub
 
 on:
   push:
-    branches: [ "main-docker" ]
+    branches: [ "main" ]
 
 permissions:
   contents: read
