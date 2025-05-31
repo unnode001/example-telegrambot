@@ -4,8 +4,16 @@
 IMAGE_NAME="unnode001/example-telegrambot"
 IMAGE_TAG="latest"
 CONTAINER_NAME="example-telegrambot-container"
-HOST_PORT="8080" # 宿主机端口 (在 Cloud Shell 中这通常是容器的公开端口)
-CONTAINER_PORT="8080" # 容器内部端口 (请根据你的应用实际端口修改)
+HOST_PORT="8080"      # 宿主机端口 (在 Cloud Shell 中这通常是容器的公开端口)
+CONTAINER_PORT="8080" # 容器内部端口 (请根据你的应用实际端口修改，Spring Boot 默认是 8080)
+
+# --- 私密信息环境变量定义 (仅在脚本中，不会硬编码到代码或Dockerfile) ---
+# 建议在实际使用时，将这些值存储在安全的地方（如CI/CD工具的Secrets，或者运行环境的实际环境变量中）
+# 这里的直接赋值仅为示例，在生产环境应避免直接写在这里
+TELEGRAM_BOT_NAME="unnode002_bot"
+TELEGRAM_BOT_TOKEN="8186231076:AAH7DNomL3eQ-C_g1wc3ngY0SNA2bXh4NY" # 注意：请替换为你的真实Token，此示例为占位符
+TELEGRAM_REVIEW_GROUP_ID="-4894905748" # 注意：请替换为你的真实审核群组ID
+TELEGRAM_PUBLIC_GROUP_ID="-1002279220106" # 注意：请替换为你的真实公开群组ID
 # --- 配置结束 ---
 
 echo "--- 开始部署 Docker 镜像 ---"
@@ -16,7 +24,6 @@ echo "尝试停止并移除旧的容器 '${CONTAINER_NAME}' (如果存在)..."
 docker stop "${CONTAINER_NAME}" &>/dev/null || true
 docker rm "${CONTAINER_NAME}" &>/dev/null || true
 echo "旧容器 '${CONTAINER_NAME}' 已清理。"
-
 
 # 2. 拉取最新的 Docker 镜像
 FULL_IMAGE_NAME="${IMAGE_NAME}:${IMAGE_TAG}"
@@ -33,11 +40,12 @@ echo "正在运行 Docker 容器 '${CONTAINER_NAME}'..."
 # -p: 端口映射 (宿主机端口:容器内部端口)。在 Cloud Shell 中，这里的主机端口通常就是容器的暴露端口。
 # --name: 指定容器名称
 # -e: 传递环境变量给容器 (非常重要，用于你的机器人 Token 和用户名)
-# 请在这里添加你的 Telegram Bot Token 和 Username 环境变量
 if ! docker run -d -p "${HOST_PORT}:${CONTAINER_PORT}" \
-                 -e "TELEGRAM_BOT_TOKEN=8186231076:AAH7DNomL3e7QQC_g1wc3ngY0SNA2bXh4NY" \
-                 -e "TELEGRAM_BOT_USERNAME=unnode002_bot" \
-                 --name "${CONTAINER_NAME}" "${FULL_IMAGE_NAME}"; then
+                -e "TELEGRAM_BOT_NAME=${TELEGRAM_BOT_NAME}" \
+                -e "TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}" \
+                -e "TELEGRAM_REVIEW_GROUP_ID=${TELEGRAM_REVIEW_GROUP_ID}" \
+                -e "TELEGRAM_PUBLIC_GROUP_ID=${TELEGRAM_PUBLIC_GROUP_ID}" \
+                --name "${CONTAINER_NAME}" "${FULL_IMAGE_NAME}"; then
     echo "错误：无法运行 Docker 容器 '${CONTAINER_NAME}'。可能端口 '${HOST_PORT}' 已被占用或容器内部应用配置问题。"
     exit 1
 fi

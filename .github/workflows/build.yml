@@ -49,3 +49,13 @@ jobs:
           push: true
           tags: unnode001/example-telegrambot:latest
           file: ./Dockerfile
+
+#      - name: Deploy Docker Container
+#        run: |
+#          # ./deploy_script.sh 一键部署脚本
+#          ./deploy_script.sh
+#        env:
+#          TELEGRAM_BOT_NAME: ${{ secrets.TELEGRAM_BOT_NAME }}
+#          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+#          TELEGRAM_REVIEW_GROUP_ID: ${{ secrets.TELEGRAM_REVIEW_GROUP_ID }}
+#          TELEGRAM_PUBLIC_GROUP_ID: ${{ secrets.TELEGRAM_PUBLIC_GROUP_ID }}
